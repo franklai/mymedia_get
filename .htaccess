@@ -1,0 +1,4 @@
+RewriteEngine on
+
+RewriteBase /php/mymedia_get
+RewriteRule ^app$ app.php

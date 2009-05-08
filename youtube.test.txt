@@ -1,0 +1,25 @@
+http://video.google.com/videoplay?docid=-7702779328527421595&hl=zh-TW
+	http://v5.lscache7.googlevideo.com/videoplayback?id=707d266fa01d4b1e&itag=5&begin=0&ip=0.0.0.0&ipbits=0&expire=1241825010&sparams=ip,ipbits,expire,id,itag&signature=4B996ACA79B2CE0295219C2F8367708222B769E5.0C4644F9A4951DCAB08DAA62B970FB8718E35FB7&key=ck1%5Cx26thumbnailUrl%5Cx3dhttp://2.gvt0.com/ThumbnailServer2?app=vss&contentid=707d266fa01d4b1e&offsetms=25000&itag=w320&hl=zh-TW
+
+http://www.youtube.com/watch?v=iNNrZytyY54&feature=popular
+	http://keepvid.com/save-video.flv?http%3A%2F%2Fv14.lscache5.googlevideo.com%2Fvideoplayback%3Fsparams%3Did%252Cexpire%252Cip%252Cipbits%252Citag%26itag%3D5%26ip%3D174.37.202.98%26signature%3D99B286D2F9466A2F511D43E3DDB113415F3DFBA8.D83750743673FB27010B7AFAF11144149B34712F%26sver%3D3%26expire%3D1241825061%26key%3Dyt1%26ipbits%3D0%26id%3D88d36b672b72639e
+	http://keepvid.com/save-video.mp4?http%3A%2F%2Fv11.lscache5.googlevideo.com%2Fvideoplayback%3Fsparams%3Did%252Cexpire%252Cip%252Cipbits%252Citag%26itag%3D18%26ip%3D174.37.202.98%26signature%3D07384600E0502F7E29430345C8ED06C16BAFEC13.9D890E51A5F31D27D583E980AB54FABFCE5362A8%26sver%3D3%26expire%3D1241825061%26key%3Dyt1%26ipbits%3D0%26id%3D88d36b672b72639e
+	http://v11.lscache5.googlevideo.com/videoplayback?sparams=id%2Cexpire%2Cip%2Cipbits%2Citag&itag=18&ip=174.37.202.98&signature=07384600E0502F7E29430345C8ED06C16BAFEC13.9D890E51A5F31D27D583E980AB54FABFCE5362A8&sver=3&expire=1241825061&key=yt1&ipbits=0&id=88d36b672b72639e
+	http://v11.lscache5.googlevideo.com/videoplayback?sparams=id,expire,ip,ipbits,itag&itag=18&ip=174.37.202.98&signature=07384600E0502F7E29430345C8ED06C16BAFEC13.9D890E51A5F31D27D583E980AB54FABFCE5362A8&sver=3&expire=1241825061&key=yt1&ipbits=0&id=88d36b672b72639e
+
+http://www.youtube.com/watch?v=QCBLKrEQ278
+	http://keepvid.com/save-video.flv?http%3A%2F%2Fv4.lscache6.googlevideo.com%2Fvideoplayback%3Fsparams%3Did%252Cexpire%252Cip%252Cipbits%252Citag%26itag%3D5%26ip%3D174.37.202.98%26signature%3DCF3DEF7A6E77795EE115C9F3FB1F4AA46F301A2A.35B9959C8098A8AB59EC70C163988D5B3EA19C66%26sver%3D3%26expire%3D1241825340%26key%3Dyt1%26ipbits%3D0%26id%3D40204b2ab110dbbf
+	http://keepvid.com/save-video.mp4?http%3A%2F%2Fv11.lscache5.googlevideo.com%2Fvideoplayback%3Fsparams%3Did%252Cexpire%252Cip%252Cipbits%252Citag%26itag%3D18%26ip%3D174.37.202.98%26signature%3D2A168098D9F688C76A612B537BCC1DA2ED1F00CE.81937698A32AAA3C5990FA0D095B3F45A6C5C6D2%26sver%3D3%26expire%3D1241825340%26key%3Dyt1%26ipbits%3D0%26id%3D40204b2ab110dbbf
+	http://v4.lscache6.googlevideo.com/videoplayback?sparams=id%2Cexpire%2Cip%2Cipbits%2Citag&itag=5&ip=91.121.92.88&signature=A97442E1155A6985C3F7279BE44951F461648D49.D334B78182DE32509DA816D8F4DD803C0D98B9B8&sver=3&expire=1241825415&key=yt1&ipbits=0&id=40204b2ab110dbbf
+	http://v15.lscache4.googlevideo.com/videoplayback?sparams=id%2Cexpire%2Cip%2Cipbits%2Citag&itag=35&ip=216.224.117.2&signature=167BC7BCA1323B86846FD62F02AA0BED1CF5E7D5.7E956A8D877A978EC7C25FE9FBB3D9C25AF42DA4&sver=3&expire=1241825526&key=yt1&ipbits=0&id=40204b2ab110dbbf
+	http://v4.lscache6.googlevideo.com/videoplayback?sparams=id%2Cexpire%2Cip%2Cipbits%2Citag&itag=5&ip=216.224.117.2&signature=014CBB8F5574D0C2F868CB8551795159A1A93C28.2DE913E890553ABEC0D769EA47BE15E760BF4CFD&sver=3&expire=1241825527&key=yt1&ipbits=0&id=40204b2ab110dbbf
+
+http://v11.lscache5.googlevideo.com/videoplayback?sparams=id,expire,ip,ipbits,itag&
+itag=18&
+ip=174.37.202.98&
+signature=07384600E0502F7E29430345C8ED06C16BAFEC13.9D890E51A5F31D27D583E980AB54FABFCE5362A8&
+sver=3&
+expire=1241825061&
+key=yt1&
+ipbits=0&
+id=88d36b672b72639e
