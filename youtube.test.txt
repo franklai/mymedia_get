@@ -23,3 +23,19 @@ expire=1241825061&
 key=yt1&
 ipbits=0&
 id=88d36b672b72639e
+
+
+！！Python這樣就成功了！！
+GET /get_video?video_id=wn4_yRCS5LA&t=vjVQa1PpcFO1sjlCu_8Oml0z5M--WdB9_hBS_bsVxXo= HTTP/1.1
+Accept-Encoding: identity
+Host: www.youtube.com
+Connection: close
+User-Agent: Opera/9.64 (Windows NT 5.1; U; en) Presto/2.1.1
+
+步驟：
+1. 讀 http://www.youtube.com/watch?v=QCBLKrEQ278 的HTML
+2. parse 出 video_id 和 t
+3. http://www.youtube.com/get_video?video_id=[]&t=[] 會有 303 See Other，看 headers 裡的 Location，就是正確答案
+4. 目前看起來是 get_video?fmt=34 是 flv、fmt=18 是 mp4
+
+

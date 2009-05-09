@@ -1,4 +1,16 @@
 <?php
+require('curl.php');
+
+function MSG($message)
+{
+	$destination = './log.txt';
+	$func_info = sprintf('%s() at %s:%d', xdebug_call_function(), 
+						xdebug_call_file(), xdebug_call_line()); 
+
+	error_log(date('Y-m-d G:i:s'), 3, $destination);
+	error_log(' '.$func_info."\n", 3, $destination);
+	error_log(var_export($message, TRUE)."\n", 3, $destination);
+}
 
 function main()
 {
@@ -27,9 +39,7 @@ function media_url_parse($url)
 	}
 
 	$array = parse_url($url);
-echo '<pre>';
-print_r($array);
-echo '</pre>';
+
 	if (isset($array['host'])) {
 		$host = $array['host'];
 	}
@@ -53,9 +63,6 @@ function url_handler_mymedia($url)
 {
 	$result = array();
 	
-echo 'url in mymedia handler, '.$url;
-echo '<br/>';
-
 	if (!isset($url)) {
 		return $result;
 	}
@@ -88,17 +95,11 @@ echo '<br/>';
 		// first, parse ID
 		$pattern = '/\/m\/([0-9]+)/';
 		preg_match($pattern, $url, $matches);
-echo 'pattern in get_link_by_url, '.$pattern;
-echo '<br/>';
-echo 'matches, '.print_r($matches);
-echo '<br/>';
 
 		if (2 != count($matches)) {
 			return $link;
 		}
 		$id = $matches[1];
-echo 'id in get_link_by_url, '.$id;
-echo '<br/>';
 
 		$link_prefix = 'http://mymedia.yam.com/api/a/?pID=';
 
@@ -122,6 +123,13 @@ echo '<br/>';
 	return $result;
 }
 
+
+// function url_handler_youtube($url)
+// {
+// 	// 1. check url
+// 	// 2. re
+// }
+
 function url_handler_youtube($url)
 {
 	$result = array();
@@ -137,8 +145,7 @@ function url_handler_youtube($url)
 			return $links;
 		}
 
-		$pattern = '/"video_id": "([0-9a-zA-Z_\-]+)".*'
-				   . '"t": "([0-9a-zA-Z_=]+)"/';
+		$pattern = '/"video_id": "([^"]+)".*"t": "([^"]+)"/';
 		preg_match($pattern, $html, $matches);
 		if (3 != count($matches)) {
 			return $links;
@@ -146,13 +153,9 @@ function url_handler_youtube($url)
 
 		$youtube_link = sprintf('http://%s/get_video?video_id=%s&t=%s',
 						 'www.youtube.com', $matches[1], $matches[2]);
-		$h = url_get_html($youtube_link);
+		$links['link'] = url_get_header($youtube_link.'&fmt=34', 'Location');
+		$links['hq_link'] = url_get_header($youtube_link.'&fmt=18', 'Location');
 
-//		 $links['link'] = sprintf('http://%s/get_video?video_id=%s&t=%s',
-//						  'www.youtube.com', $matches[1], $matches[2]);
-//		 $links['hq_link'] = sprintf('http://%s/%s?video_id=%s&t=%s&fmt=18',
-//						  'www.youtube.com', 'get_video',
-//						  $matches[1], $matches[2]);
 		return $links;
 	}
 
@@ -185,24 +188,19 @@ function url_handler_youtube($url)
 /**
  * utility functions
  */
-function url_get_html($url) {
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, $url); // set url
-	curl_setopt($ch, CURLOPT_HEADER, 0); // do not output header
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, True); // not directly output
-	// for Google App Engine test
-// 	curl_setopt($ch, CURLOPT_USERAGENT, 'AppEngine-Google; (+http://code.google.com/appengine)');
-	curl_setopt($ch, CURLOPT_USERAGENT, 'PHP Mymedia Get');
-// 	curl_setopt($ch, CURLOPT_REFERER, 'http://franklai-gb.appspot.com/');
-// 	curl_setopt($ch, CURLOPT_REFERER, 'http://www.youtube.com/');
-	curl_setopt($ch, CURLOPT_ENCODING, 'gzip');
-
-	$result = curl_exec($ch);
-	curl_close($ch);
-
-	return $result;
+function url_get_header($url, $key) {
+	$obj = new Curl($url);
+	$headers = $obj->get_info();
+	return $headers[$key];
 }
+function url_get_html($url) {
+	$obj = new Curl($url);
+	return $obj->get_content();
+}
+
 
 // execute main function
 main();
 ?>
+
+
