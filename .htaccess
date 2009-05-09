@@ -1,4 +1,10 @@
+# <Directory ".hg">
+# Order deny,allow
+# Deny from all
+# </Directory>
+
 RewriteEngine on
 
-RewriteBase /php/mymedia_get
+#RewriteBase /php/mymedia_get
 RewriteRule ^app$ app.php
+
