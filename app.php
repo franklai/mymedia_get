@@ -1,5 +1,6 @@
 <?php
-require('curl.php');
+// require('curl.php');
+require('tudou.php');
 
 function MSG($message)
 {
@@ -51,6 +52,8 @@ function media_url_parse($url)
 		$result = url_handler_youtube($url);
 	} else if (stristr($host, 'mymedia.yam.com')) {
 		$result = url_handler_mymedia($url);
+	} else if (stristr($host, '.tudou.com')) {
+		$result = url_handler_tudou($url);
 	}
 
 	return $result;
@@ -59,6 +62,21 @@ function media_url_parse($url)
 /**
  * url handlers
  */
+function url_handler_tudou($url)
+{
+	$result = array();
+
+	$tudou = new Tudou($url);
+	$links = $tudou->get_links();
+	$title = $tudou->get_title();
+
+	foreach ($links as $link) {
+		$result[] = array('link' => $link, 'title' => $title);
+	}
+
+	return $result;
+}
+
 function url_handler_mymedia($url)
 {
 	$result = array();
