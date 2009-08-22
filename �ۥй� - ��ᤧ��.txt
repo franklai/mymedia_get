@@ -1,0 +1,144 @@
+石田彰-（朗读CD）雨月物语之菊花之约1
+1~6
+
+http://www.tudou.com/programs/view/OWnr8ywZ6Zc/
+http://www.tudou.com/programs/view/4UxoqU5-71w/
+http://www.tudou.com/programs/view/qwoka9w5CI8/
+http://www.tudou.com/programs/view/MOrNMwACmdw/
+http://www.tudou.com/programs/view/8rSZt8xzQg0/
+http://www.tudou.com/programs/view/Veq0WIbqwa8/
+
+http://119.146.74.16/flv/003/837/947/903837947.flv?key=10d1e897221f6ab9c641874a0623ba74dc2b59
+
+
+
+Host: 125.90.66.14
+
+/flv/003/837/947/903837947.flv?11000&key=b55aa53b0d24dcdba7b4e24a06243b74dc2b59
+
+http://125.90.66.14/flv/003/837/947/903837947.flv?11000&key=b55aa53b0d24dcdba7b4e24a06243b74dc2b59
+
+
+GET /flv/003/838/088/903838088.flv?11000&key=71f73d1d751dce44c624e04a0626c174dc2b59 HTTP/1.1
+User-Agent: Opera/9.64 (Windows NT 5.1; U; en) Presto/2.1.1
+Host: 121.12.103.36
+Accept: text/html, application/xml;q=0.9, application/xhtml+xml, image/png, image/jpeg, image/gif, image/x-xbitmap, */*;q=0.1
+Accept-Language: zh-tw,en;q=0.9
+Accept-Charset: iso-8859-1, utf-8, utf-16, *;q=0.1
+Accept-Encoding: deflate, gzip, x-gzip, identity, *;q=0
+Referer: http://js.tudouui.com/bin/player_online/TudouVideoPlayer_Homer_65.swf
+Connection: Keep-Alive
+
+==
+GET /flv/003/838/172/903838172.flv?11000&key=e2bff4b9770fd5d98a198c4a06286374dc2b59 HTTP/1.1
+User-Agent: Opera/9.64 (Windows NT 5.1; U; en) Presto/2.1.1
+Host: 119.120.95.11
+Accept: text/html, application/xml;q=0.9, application/xhtml+xml, image/png, image/jpeg, image/gif, image/x-xbitmap, */*;q=0.1
+Accept-Language: zh-tw,en;q=0.9
+Accept-Charset: iso-8859-1, utf-8, utf-16, *;q=0.1
+Accept-Encoding: deflate, gzip, x-gzip, identity, *;q=0
+Referer: http://js.tudouui.com/bin/player_online/TudouVideoPlayer_Homer_65.swf
+Connection: Keep-Alive
+
+==
+GET /crossdomain.xml HTTP/1.1
+User-Agent: Opera/9.64 (Windows NT 5.1; U; en) Presto/2.1.1
+Host: stat.tudou.com
+Accept: text/html, application/xml;q=0.9, application/xhtml+xml, image/png, image/jpeg, image/gif, image/x-xbitmap, */*;q=0.1
+Accept-Language: zh-tw,en;q=0.9
+Accept-Charset: iso-8859-1, utf-8, utf-16, *;q=0.1
+Accept-Encoding: deflate, gzip, x-gzip, identity, *;q=0
+Referer: http://www.tudou.com/player/outside/player_outside.swf?iid=3837974&default_skin=http://js.tudouui.com/bin/player2/outside/Skin_outside_12.swf&autostart=false&rurl=
+If-Modified-Since: Sun, 21 Sep 2008 11:26:22 GMT
+If-None-Match: W/"152-1221996382000"
+Cookie: juid=avbelca77lq; dmuid=410573fe-b2b5-4de3-9690-970d0781ad4e; tudouad_citycode=710000; pageStep=6; dmt491e5fd092db6=5%7C0; dm491e5fd092db6=5%7C1241917555%7C2%7Cgoogle%7C%25E7%259F%25B3%25E7%2594%25B0%25E5%25BD%25B0%2B%25E8%258F%258A%25E8%258A%25B1%25E3%2581%25AE%25E5%25A5%2591; pageUUID=1ed14d73-98ea-48af-bb3b-dc398f3b4342~_~1204; tudou=98a43e4a4de21ba5f8baaa5f62d04711
+Cookie2: $Version=1
+Connection: Keep-Alive
+
+== ===== =====
+http://www.tudou.com/v/4UxoqU5-71w
+
+==
+http://v2.tudou.com/v2/cdn?noCatch=18860&safekey=YouNeverKnowThat&id=3837974
+http://v2.tudou.com/v2/cdn?id=3837974
+-=-
+GET /v2/cdn?noCatch=18860&safekey=YouNeverKnowThat&id=3837974 HTTP/1.1
+User-Agent: Opera/9.64 (Windows NT 5.1; U; en) Presto/2.1.1
+Host: v2.tudou.com
+Accept: text/html, application/xml;q=0.9, application/xhtml+xml, image/png, image/jpeg, image/gif, image/x-xbitmap, */*;q=0.1
+Accept-Language: zh-tw,en;q=0.9
+Accept-Charset: iso-8859-1, utf-8, utf-16, *;q=0.1
+Accept-Encoding: deflate, gzip, x-gzip, identity, *;q=0
+Referer: http://www.tudou.com/player/outside/player_outside.swf?iid=3837974&default_skin=http://js.tudouui.com/bin/player2/outside/Skin_outside_12.swf&autostart=false&rurl=
+Cookie: juid=avbelca77lq; dmuid=410573fe-b2b5-4de3-9690-970d0781ad4e; tudouad_citycode=710000; pageStep=6; dmt491e5fd092db6=5%7C0; dm491e5fd092db6=5%7C1241917555%7C2%7Cgoogle%7C%25E7%259F%25B3%25E7%2594%25B0%25E5%25BD%25B0%2B%25E8%258F%258A%25E8%258A%25B1%25E3%2581%25AE%25E5%25A5%2591; pageUUID=1ed14d73-98ea-48af-bb3b-dc398f3b4342~_~1204; tudou=98a43e4a4de21ba5f8baaa5f62d04711
+Cookie2: $Version=1
+Connection: Keep-Alive, TE
+TE: deflate, gzip, chunked, identity, trailers
+
+-=-
+<v time="461500" vi="0" ch="14" nls="0" title="&#30707;&#30000;&#24432;-&#65288;&#26391;&#35835;CD&#65289;&#38632;&#26376;&#29289;&#35821;&#20043;&#33738;&#33457;&#20043;&#32422;2" code="4UxoqU5-71w" enable="1" logo="0" band="0"><a></a><b><f w="6" h="0" sha1="a19d9b609cba21cba3d7276e83e2e464ebbdd667" size="7667600">http://221.204.229.18/flv/003/837/974/903837974.flv?key=5de36608b05737bc5cb8564a0629be74dc2b59</f><f w="4" h="0" sha1="a19d9b609cba21cba3d7276e83e2e464ebbdd667" size="7667600">http://218.0.4.204/flv/003/837/974/903837974.flv?key=5de36608b05737bc5cb8564a0629be74dc2b59</f><f w="4" h="0" sha1="a19d9b609cba21cba3d7276e83e2e464ebbdd667" size="7667600">http://118.72.252.138/flv/003/837/974/903837974.flv?key=5de36608b05737bc5cb8564a0629be74dc2b59</f><f w="3" h="0" sha1="a19d9b609cba21cba3d7276e83e2e464ebbdd667" size="7667600">http://125.90.66.6/flv/003/837/974/903837974.flv?key=5de36608b05737bc5cb8564a0629be74dc2b59</f></b></v>
+-=-
+http://221.204.229.18/flv/003/837/974/903837974.flv?key=5de36608b05737bc5cb8564a0629be74dc2b59
+=\=\
+GET /flv/003/837/974/903837974.flv?81000&key=5de36608b05737bc5cb8564a0629be74dc2b59 HTTP/1.1
+User-Agent: Opera/9.64 (Windows NT 5.1; U; en) Presto/2.1.1
+Host: 221.204.229.18
+Accept: text/html, application/xml;q=0.9, application/xhtml+xml, image/png, image/jpeg, image/gif, image/x-xbitmap, */*;q=0.1
+Accept-Language: zh-tw,en;q=0.9
+Accept-Charset: iso-8859-1, utf-8, utf-16, *;q=0.1
+Accept-Encoding: deflate, gzip, x-gzip, identity, *;q=0
+Referer: http://www.tudou.com/player/outside/player_outside.swf?iid=3837974&default_skin=http://js.tudouui.com/bin/player2/outside/Skin_outside_12.swf&autostart=false&rurl=
+Connection: Keep-Alive, TE
+TE: deflate, gzip, chunked, identity, trailers
+
+===
+HTTP/1.1 302 Found
+Server: tws/0.1
+Date: Sun, 10 May 2009 01:36:39 GMT
+Content-Type: text/html
+Connection: keep-alive
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+Pragma: no-cache
+Location: http://www.tudou.com/player/outside/player_outside.swf?iid=3837974&default_skin=http://js.tudouui.com/bin/player2/outside/Skin_outside_12.swf&autostart=false&rurl=
+Vary: Accept-Encoding
+Content-Encoding: gzip
+Content-Length: 20
+
+=====
+[2009.05.10]
+步驟(尚未驗證)：
+1.	http://www.tudou.com/programs/view/Veq0WIbqwa8/
+	取得其 html ，讀出「embed src="http://www.tudou.com/v/Veq0WIbqwa8"」
+2.	http://www.tudou.com/v/Veq0WIbqwa8
+	302 Found，在header裡有「Location: http://www.tudou.com/player/outside/player_outside.swf?iid=3838382&default_skin=http://js.tudouui.com/bin/player2/outside/Skin_outside_12.swf&autostart=false&rurl=」
+3.	http://v2.tudou.com/v2/cdn?id=3838382
+	取其回應，會是xml，內網址數量不定(？)
+4.	http://218.60.33.16/flv/003/838/382/903838382.flv?key=266c74469f87a55adb52704a0630a674dc2b59
+	get it
+
+目前測試，如果用Python client把4步跑完，第4步拿到的FLV link再用Opera會forbidden。
+但是Python client跑到第3步的cdn url給opera，opera讀到的xml link再拿，就會成功！
+
+
+
+
+
+=====
+GET /v2/cdn?id=3838382 HTTP/1.1
+User-Agent: Opera/9.64 (Windows NT 5.1; U; en) Presto/2.1.1
+Host: v2.tudou.com
+Accept: text/html, application/xml;q=0.9, application/xhtml+xml, image/png, image/jpeg, image/gif, image/x-xbitmap, */*;q=0.1
+Accept-Language: zh-tw,en;q=0.9
+Accept-Charset: iso-8859-1, utf-8, utf-16, *;q=0.1
+Accept-Encoding: deflate, gzip, x-gzip, identity, *;q=0
+Cookie: juid=avbelca77lq; dmuid=410573fe-b2b5-4de3-9690-970d0781ad4e; dm491e5fd092db6=5%7C1241919564%7C2%7Cgoogle%7C%25E7%259F%25B3%25E7%2594%25B0%25E5%25BD%25B0%2B%25E8%258F%258A%25E8%258A%25B1%25E3%2581%25AE%25E5%25A5%2591
+Cookie2: $Version=1
+Connection: Keep-Alive
+
+
+
+http://121.12.103.35/flv/003/838/382/903838382.flv?key=b6a2d11f2d0e61c25e6c6b4a082f0174dc2b59
+
+
+
