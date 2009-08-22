@@ -157,22 +157,18 @@ function url_handler_youtube($url)
 	}
 
 	function get_links_by_html($html) {
-		$links = array('link' => NULL, 'hq_link' => NULL);
+		$links = array();
 
 		if (empty($html)) {
 			return $links;
 		}
 
-		$pattern = '/"video_id": "([^"]+)".*"t": "([^"]+)"/';
-		preg_match($pattern, $html, $matches);
-		if (3 != count($matches)) {
-			return $links;
-		}
-
-		$youtube_link = sprintf('http://%s/get_video?video_id=%s&t=%s',
-						 'www.youtube.com', $matches[1], $matches[2]);
-		$links['link'] = url_get_header($youtube_link.'&fmt=34', 'Location');
-		$links['hq_link'] = url_get_header($youtube_link.'&fmt=18', 'Location');
+        // parse links with fmt_url_map
+        // "fmt_url_map": "[^"]+"
+		$pattern = '/"fmt_url_map": "([^"]+)"/';
+        if (1 == preg_match($pattern, $html, $matches)) {
+            $links += explode(',', urldecode($matches[1]));
+        }
 
 		return $links;
 	}
@@ -197,8 +193,45 @@ function url_handler_youtube($url)
 	$html = url_get_html($url);
 	$title = get_title_by_html($html);
 	$links = get_links_by_html($html);
-	$result[0] = array('title' => $title.'.flv', 'link' => $links['link']);
-	$result[1] = array('title' => $title.'.mp4', 'link' => $links['hq_link']);
+    foreach ($links as $key=> $link) {
+        $items = explode('|', $link);
+        if (2 == count($items)) {
+            // other format link
+            $fmt = $items[0];
+            if ('5' == $fmt) {
+                // default video. fmt=5, FLV H263 MP2L3
+                $result[] = array(
+                    'title' => $title.'.flv', 
+                    'link' => $items[1]
+                );
+            } else if ('18' == $fmt || '22' == $fmt) {
+                // high quality. MP4 AVC AAC
+                // 18 is normal HQ, using AVC & AAC in mp4
+                // 22 is special HQ, 720p
+                $result[] = array(
+                    'title' => $title.'.mp4', 
+                    'link' => $items[1]
+                );
+            } else {
+                // other format
+                // 
+                // fmt=35, FLV AVC_MainL2.1 AAC_LC
+                // fmt=34, FLV AVC_MainL1.1 AAC_LC_SBR
+                $result[] = array(
+                    'title' => $title.'[fmt '.$items[0].']', 
+                    'link' => $items[1]
+                );
+            }
+        } else {
+            // default flash video link
+            $result[] = array('title' => $title, 'link' => $link);
+        }
+    }
+
+    if (0 == count($result)) {
+        $result[] = array('title'=> 'Failed to retrieve YouTube link', 'link'=> NULL);
+    }
+
 
 	return $result;
 }
