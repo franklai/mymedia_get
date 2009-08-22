@@ -1,3 +1,5 @@
+Options FollowSymLinks
+
 RewriteEngine on
 
 RewriteBase /php/mymedia_get
