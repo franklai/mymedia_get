@@ -25,9 +25,11 @@ class Curl
 			}
 		}
 
-		if (isset($data)) {
+		if (isset($data) && NULL != $data) {
 			$method = 'post';
-			$sent_headers[] = 'Content-Type: application/x-www-form-urlencoded';
+			if ($headers && !array_key_exists('Content-Type', $headers)) {
+				$sent_headers[] = 'Content-Type: application/x-www-form-urlencoded';
+			}
 		}
 
 		$ch = curl_init();
@@ -41,6 +43,7 @@ class Curl
 			curl_setopt($ch, CURLOPT_HTTPGET, TRUE);
 		} else if ('post' == $method) {
 			curl_setopt($ch, CURLOPT_POST, TRUE);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 		}
 
 		$response = curl_exec($ch);
@@ -88,7 +91,11 @@ class CurlResponse
 		# Convert headers into an associative array
 		foreach ($headers as $header) {
 			preg_match('#(.*?)\:\s(.*)#', $header, $matches);
-			$this->headers[$matches[1]] = $matches[2];
+			if (array_key_exists($matches[1], $this->headers)) {
+				$this->headers[$matches[1]] .= ','.$matches[2];
+			} else {
+				$this->headers[$matches[1]] = $matches[2];
+			}
 		}
 		
 		# Remove the headers from the response body
