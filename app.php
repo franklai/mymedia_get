@@ -165,11 +165,10 @@ function url_handler_youtube($url)
 
         // parse links with fmt_url_map
         // "fmt_url_map": "[^"]+"
-		$pattern = '/"fmt_url_map": "([^"]+)"/';
+		$pattern = '/fmt_url_map=([^&]+)/';
         if (1 == preg_match($pattern, $html, $matches)) {
             $links += explode(',', urldecode($matches[1]));
         }
-
 		return $links;
 	}
 
@@ -189,6 +188,11 @@ function url_handler_youtube($url)
 
 		return $title;
 	}
+
+    // at least three headers
+    // VISITOR_INFO1_LIVE
+    // GEO
+    // PREF
 
 	$html = url_get_html($url);
 	$title = get_title_by_html($html);
@@ -244,8 +248,8 @@ function url_get_header($url, $key) {
 	$headers = $obj->get_info();
 	return $headers[$key];
 }
-function url_get_html($url) {
-	$obj = new Curl($url);
+function url_get_html($url, $data=NULL, $headers=NULL) {
+	$obj = new Curl($url, $data, $headers);
 	return $obj->get_content();
 }
 

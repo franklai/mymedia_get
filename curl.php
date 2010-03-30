@@ -24,7 +24,6 @@ class Curl
 				$sent_headers[] = $key.': '.$value;
 			}
 		}
-
 		if (isset($data) && NULL != $data) {
 			$method = 'post';
 			if ($headers && !array_key_exists('Content-Type', $headers)) {
@@ -38,6 +37,8 @@ class Curl
 		curl_setopt($ch, CURLOPT_HEADER, TRUE); // output header
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $sent_headers); // array of HTTP headers
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); // not directly output
+		curl_setopt($ch, CURLOPT_COOKIEFILE, 'tmp_cookie.txt'); // set load cookie file
+		curl_setopt($ch, CURLOPT_COOKIEJAR, 'tmp_cookie.txt'); // set save cookie file
 		curl_setopt($ch, CURLOPT_URL, $url); // set url
 		if ('get' == $method) {
 			curl_setopt($ch, CURLOPT_HTTPGET, TRUE);
