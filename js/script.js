@@ -61,7 +61,7 @@ $(document).ready(function(){
 
 		// JSON query
 		$.getJSON(
-			"app",
+			"app.php",
 			{'url': url},
 			function(links){
                 var lines = new Array();
