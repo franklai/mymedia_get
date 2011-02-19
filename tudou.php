@@ -1,5 +1,5 @@
 <?php
-require('curl.php');
+require_once('curl.php');
 
 /**
  *1.http://www.tudou.com/programs/view/Veq0WIbqwa8/

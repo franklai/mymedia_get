@@ -1,6 +1,7 @@
 <?php
 // require('curl.php');
 require('tudou.php');
+require('vimeo.php');
 
 function MSG($message)
 {
@@ -54,6 +55,8 @@ function media_url_parse($url)
 		$result = url_handler_mymedia($url);
 	} else if (stristr($host, '.tudou.com')) {
 		$result = url_handler_tudou($url);
+	} else if (stristr($host, 'vimeo.com')) {
+		$result = url_handler_vimeo($url);
 	}
 
 	return $result;
@@ -62,6 +65,21 @@ function media_url_parse($url)
 /**
  * url handlers
  */
+function url_handler_vimeo($url)
+{
+	$result = array();
+
+	$tudou = new Vimeo($url);
+	$links = $tudou->get_links();
+	$title = $tudou->get_title();
+
+	foreach ($links as $link) {
+		$result[] = array('link' => $link, 'title' => $title);
+	}
+
+	return $result;
+}
+
 function url_handler_tudou($url)
 {
 	$result = array();
