@@ -80,7 +80,7 @@ class CurlResponse
 		# Extract headers from response
 		$pattern = '#HTTP/\d\.\d.*?$.*?\r\n\r\n#ims';
 		preg_match_all($pattern, $response, $matches);
-		$headers = split("\r\n", str_replace("\r\n\r\n", '', array_pop($matches[0])));
+		$headers = explode("\r\n", str_replace("\r\n\r\n", '', array_pop($matches[0])));
 		
 		# Extract the version and status from the first header
 		$version_and_status = array_shift($headers);
