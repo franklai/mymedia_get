@@ -184,9 +184,9 @@ function url_handler_youtube($url)
         // parse links with fmt_url_map
         // "fmt_url_map": "[^"]+"
 		$pattern = '/fmt_url_map": "([^"]+)"/';
-		$url_pattern = '/([0-9]+\|)/';
+		$url_pattern = '/,?([0-9]+\|)/';
 		if (1 == preg_match($pattern, $html, $matches)) {
-			$url_map = urldecode($matches[1]);
+			$url_map = str_replace('\\/', '/', urldecode($matches[1]));
 
 			$replaced_url_map = preg_replace($url_pattern, '@@$1', $url_map);
 
@@ -227,30 +227,47 @@ function url_handler_youtube($url)
         if (2 == count($items)) {
             // other format link
             $fmt = $items[0];
-            if ('5' == $fmt) {
-                // default video. fmt=5, FLV H263 MP2L3
-                $result[] = array(
-                    'title' => $title.'.flv', 
-                    'link' => $items[1]
-                );
-            } else if ('18' == $fmt || '22' == $fmt) {
-                // high quality. MP4 AVC AAC
-                // 18 is normal HQ, using AVC & AAC in mp4
-                // 22 is special HQ, 720p
-                $result[] = array(
-                    'title' => $title.'.mp4', 
-                    'link' => $items[1]
-                );
-            } else {
-                // other format
-                // 
-                // fmt=35, FLV AVC_MainL2.1 AAC_LC
-                // fmt=34, FLV AVC_MainL1.1 AAC_LC_SBR
-                $result[] = array(
-                    'title' => $title.'[fmt '.$items[0].']', 
-                    'link' => $items[1]
-                );
-            }
+
+			switch ($fmt) {
+				case '5':
+					$t = $title.'.flv (Size: 400x240 Encoding:H.263 MP3)';
+					break;
+				case '34':
+					$t = $title.'.flv (Size: 640x360 Encoding:AVC AAC)';
+					break;
+				case '35':
+					$t = $title.'.flv (Size: 854x480 Encoding:AVC AAC)';
+					break;
+				case '18':
+					$t = $title.'.mp4 (Size: 480x360 Encoding:AVC AAC)';
+					break;
+				case '22':
+					$t = $title.'.mp4 (Size: 1280x720 Encoding:AVC AAC)';
+					break;
+				case '37':
+					$t = $title.'.mp4 (Size: 1920x1080 Encoding:AVC AAC)';
+					break;
+				case '38':
+					$t = $title.'.mp4 (Size: 4096x3072 Encoding:AVC AAC)';
+					break;
+				case '43':
+					$t = $title.'.webm (Size: 854x480 Encoding:VP8 Vorbis)';
+					break;
+				case '45':
+					$t = $title.'.webm (Size: 1280x720 Encoding:VP8 Vorbis)';
+					break;
+				case '17':
+					$t = $title.'.3gp (Size: 176x144 Encoding:MPEG-4 Visual Vorbis)';
+					break;
+				default:
+					$t = $title.' fmt='.$fmt;
+					break;
+			}
+
+			$result[] = array(
+				'title' => $t,
+				'link' => $items[1]
+			);
         } else {
             // default flash video link
             $result[] = array('title' => $title, 'link' => $link);
