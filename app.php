@@ -183,10 +183,17 @@ function url_handler_youtube($url)
 
         // parse links with fmt_url_map
         // "fmt_url_map": "[^"]+"
-		$pattern = '/fmt_url_map=([^&]+)/';
-        if (1 == preg_match($pattern, $html, $matches)) {
-            $links += explode(',', urldecode($matches[1]));
-        }
+		$pattern = '/fmt_url_map": "([^"]+)"/';
+		$url_pattern = '/([0-9]+\|)/';
+		if (1 == preg_match($pattern, $html, $matches)) {
+			$url_map = urldecode($matches[1]);
+
+			$replaced_url_map = preg_replace($url_pattern, '@@$1', $url_map);
+
+			$urls = explode('@@', $replaced_url_map);
+			array_shift($urls);
+			$links = $urls;
+		}
 		return $links;
 	}
 
