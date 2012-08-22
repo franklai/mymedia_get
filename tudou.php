@@ -37,16 +37,14 @@ class Common {
 
 /**
  *1.http://www.tudou.com/programs/view/Veq0WIbqwa8/
- *	取得其 html ，讀出「embed src="http://www.tudou.com/v/Veq0WIbqwa8"」
- *2.http://www.tudou.com/v/Veq0WIbqwa8
- *	302 Found，在header裡有「Location: http://www.tudou.com/player/outside/player_outside.swf?iid=3838382&default_skin=http://js.tudouui.com/bin/player2/outside/Skin_outside_12.swf&autostart=false&rurl=」
- *3.http://v2.tudou.com/v2/cdn?id=3838382
- *	取其回應，會是xml，內網址數量不定
- *4.http://218.60.33.16/flv/003/838/382/903838382.flv?key=266c74469f87a55adb52704a0630a674dc2b59
- *	get it
+ *	find iid from html
+ *2.http://v2.tudou.com/v.action?st=2,3,4,5,99&it={iid}
+ *	the response is xml, containing variable video links (different resolution)
+ *3.http://183.61.72.7/f4v/92/144127992.h264_98.f4v?key=89a89d0ae79641105d3826503463f60040488db399&tk=155012700719874303900509033&brt=99&nt=0&du=1205070&ispid=3&rc=207&inf=1&si=un&npc=3800&pp=0&ul=0&mt=-1&sid=0&rid=0&rst=0&au=0&id=tudou&itemid=100627895
+ *	real video link
  *
- * Note: the 3rd step and 4th step need to be the same User-Agent
- *       a solution is send step 3 User-Agent as browser user agent, using $_SERVER['HTTP_USER_AGENT']
+ * Note: the 2nd step and 3rd step need to be the same User-Agent
+ *       a solution is send step 2 User-Agent as browser user agent, using $_SERVER['HTTP_USER_AGENT']
  */
 class Tudou
 {
@@ -77,7 +75,12 @@ class Tudou
 
 		$videoListUrl = sprintf('http://v2.tudou.com/v.action?st=2,3,4,5,99&it=%s', $iid);
 
-		$response = new Curl($videoListUrl);
+		// 
+		$response = new Curl(
+			$videoListUrl,
+			NULL,
+			array('User-Agent' => $_SERVER['HTTP_USER_AGENT'])
+		);
 		$xml = $response->get_content();
 
 		$videoList = $this->parseXml($xml);
@@ -160,13 +163,14 @@ class Tudou
 	}
 }
 
-if (basename($argv[0]) === basename(__FILE__)) {
+if (!empty($argv) && basename($argv[0]) === basename(__FILE__)) {
 // 	$url = 'http://www.tudou.com/programs/view/YwGhpN2C_KI/';
 // 	$url = 'http://www.tudou.com/programs/view/ogyN7FvbENM/?fr=rec1';
 // 	$url = 'http://www.tudou.com/listplay/GbbmprNY16w/WnMfkxSleL4.html';
 // 	$url = 'http://www.tudou.com/programs/view/UHcWm65Nt-c/';
-	$url = 'http://www.tudou.com/programs/view/7dWtoMMsaYE/';
+// 	$url = 'http://www.tudou.com/programs/view/7dWtoMMsaYE/';
 // 	$url = 'http://www.tudou.com/programs/view/Xohot2RSQJw/';
+	$url = 'http://www.tudou.com/programs/view/z5VaKOkifzQ/';
 
 	$tudou = new Tudou($url);
 
