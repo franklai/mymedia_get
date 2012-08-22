@@ -69,9 +69,9 @@ function url_handler_vimeo($url)
 {
 	$result = array();
 
-	$tudou = new Vimeo($url);
-	$links = $tudou->get_links();
-	$title = $tudou->get_title();
+	$vimeo = new Vimeo($url);
+	$links = $vimeo->get_links();
+	$title = $vimeo->get_title();
 
 	foreach ($links as $link) {
 		$result[] = array('link' => $link, 'title' => $title);
@@ -85,12 +85,8 @@ function url_handler_tudou($url)
 	$result = array();
 
 	$tudou = new Tudou($url);
-	$links = $tudou->get_links();
-	$title = $tudou->get_title();
 
-	foreach ($links as $link) {
-		$result[] = array('link' => $link, 'title' => $title);
-	}
+	$result = $tudou->get_result();
 
 	return $result;
 }
