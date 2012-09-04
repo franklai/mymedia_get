@@ -2,6 +2,7 @@
 // require('curl.php');
 require('tudou.php');
 require('vimeo.php');
+require('youtube.php');
 
 function MSG($message)
 {
@@ -65,6 +66,17 @@ function media_url_parse($url)
 /**
  * url handlers
  */
+function url_handler_youtube($url)
+{
+	$result = array();
+
+	$vimeo = new YouTube($url);
+
+	$result = $vimeo->get_result();
+
+	return $result;
+}
+
 function url_handler_vimeo($url)
 {
 	$result = array();
@@ -162,7 +174,7 @@ function url_handler_mymedia($url)
 // 	// 2. re
 // }
 
-function url_handler_youtube($url)
+function out_of_dated_url_handler_youtube($url)
 {
 	$result = array();
 
