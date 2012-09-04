@@ -1,39 +1,6 @@
 <?php
 require_once('curl.php');
-
-if (!class_exists('Common')) {
-class Common {
-    // return substring that match prefix and suffix
-    // returned string contains prefix and suffix
-    static function getSubString($string, $prefix, $suffix) {
-        $start = strpos($string, $prefix);
-        if ($start === FALSE) {
-            echo "cannot find prefix, string:[$string], prefix[$prefix]\n";
-            return $string;
-        }
-
-        $end = strpos($string, $suffix, $start);
-        if ($end === FALSE) {
-            echo "cannot find suffix\n";
-            return $string;
-        }
-
-        if ($start >= $end) {
-            return $string;
-        }
-
-        return substr($string, $start, $end - $start + strlen($suffix));
-    }
-
-    static function getFirstMatch($string, $pattern) {
-        if (1 === preg_match($pattern, $string, $matches)) {
-            return $matches[1];
-        }
-        return FALSE;
-    }
-}
-}
-
+require_once('common.php');
 
 /**
  *1.http://www.tudou.com/programs/view/Veq0WIbqwa8/
@@ -65,7 +32,6 @@ class Tudou
 
 		$response = new Curl($url);
 		$html = $response->get_content();
-
 
 		$pattern = '/iid = ([0-9]+)/';
 		$iid = Common::getFirstMatch($html, $pattern);
