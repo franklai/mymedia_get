@@ -17,7 +17,7 @@ class Curl
 
 		$sent_headers = array();
 		if (NULL == $headers) {
-			$sent_headers[] = 'User-Agent: Mymedia Get 2009-0509';
+			$sent_headers[] = 'User-Agent: Mymedia Get 2012-0904';
 		} else {
 			// Format custom headers for cURL option
 			foreach ($headers as $key => $value) {
