@@ -269,7 +269,7 @@ class Tudou
         } 
 
         function to32bitInteger($value) {
-            if ($value > 2147483647) {
+            if (PHP_INT_MAX > 2147483647 && $value > 2147483647) {
                 $tmp = $value % 0x100000000;
                 return $tmp;
             }
@@ -375,12 +375,11 @@ if (!empty($argv) && basename($argv[0]) === basename(__FILE__)) {
 
 //     // ip forbidden
 //     $url = 'http://www.tudou.com/programs/view/rJpTeDQJvEs/';
-//     $url = 'http://www.tudou.com/albumplay/n9e8zZsySQc/bmT51zM7_3o.html';
+    $url = 'http://www.tudou.com/albumplay/n9e8zZsySQc/bmT51zM7_3o.html';
 
 //     $url = 'http://www.tudou.com/listplay/avYiZY4TUxA/H6yyw65w7Io.html';
 //     $url = 'http://www.tudou.com/programs/view/9oi-HEJGKxI';
 //     $url = 'http://www.tudou.com/listplay/iufZIeLCFFo/s4ava8gU7k0.html';
-    $url = 'http://www.tudou.com/albumplay/aEYEkJj6o5c/F_xvvZS2FZg.html';
 
     $tudou = new Tudou($url);
 
