@@ -26,30 +26,69 @@ class Tudou
         "99"=> "Original"
     );
 
-    public function __construct($url) {
+    public function __construct($url, $cfg=array("proxy" => TRUE)) {
         // compare, 
         // http://www.tudou.com/programs/view/Veq0WIbqwa8/
-
-        $response = new Curl($url);
-        $html = $response->get_content();
-        $html = mb_convert_encoding($html, "UTF-8", "GBK");
+        $html = $this->getHtml($url);
 
         $iid = $this->getIid($html, $url);
         if (FALSE === $iid) {
+            Common::debug("Failed to get iid from url: $url");
             return FALSE;
         }
+
+        $useProxy = array_key_exists('proxy', $cfg) ? (bool)$cfg['proxy'] : FALSE;
+
+        $xml = $this->getXml($iid, $useProxy);
+
+        $videoList = $this->parseXml($xml, $html, $url);
+    }
+
+    private function getHtml($url) {
+        $response = new Curl($url);
+
+        $html = $response->get_content();
+
+        if (empty($html)) {
+            // check if Location in header
+            $headers = $response->get_info();
+            if (array_key_exists('Location', $headers)) {
+                $url = $headers['Location'];
+                $html = $this->getHtml($url);
+            }
+        }
+        $html = mb_convert_encoding($html, "UTF-8", "GBK");
+
+        return $html;
+    }
+
+    private function getXml($iid, $useProxy) {
+        $proxy = 'h3.dxt.bj.ie.sogou.com:80';
 
         $videoListUrl = sprintf("http://v2.tudou.com/v.action?st=2,3,4,5,99&it=%s", $iid);
         Common::debug("url is $videoListUrl");
 
+        $headers = array();
+        if (array_key_exists('HTTP_USER_AGENT', $_SERVER)) {
+            $headers['User-Agent'] = $_SERVER['HTTP_USER_AGENT'];
+        }
+
+        // curl -v --cookie-jar kk.txt --proxy  h3.dxt.bj.ie.sogou.com:80  --header "X-Sogou-Auth: D3D6D30BED1674FAC48EE9A9D01C6799/30/853edc6d49ba4e27" --header "X-Sogou-Timestamp: 5051b765" --header "X-Sogou-Tag: 39eb3b68"   "http://v2.tudou.com/v.action?st=2,3,4,5,99&it=148748772"
+        if ($useProxy) {
+            $headers['X-Sogou-Auth'] = 'D3D6D30BED1674FAC48EE9A9D01C6799/30/853edc6d49ba4e27';
+            $headers['X-Sogou-Timestamp'] = '5051b765';
+            $headers['X-Sogou-Tag'] = '39eb3b68';
+        }
+
         $response = new Curl(
             $videoListUrl,
             NULL,
-            array('User-Agent' => $_SERVER['HTTP_USER_AGENT'])
+            $headers,
+            $proxy
         );
         $xml = $response->get_content();
 
-        $videoList = $this->parseXml($xml, $html, $url);
+        return $xml;
     }
 
     private function getIid($html, $url) {
@@ -57,13 +96,15 @@ class Tudou
         $pattern = '/iid = ([0-9]+)/';
         $iid = Common::getFirstMatch($html, $pattern);
 
-        if (empty($iid) && Common::hasString($url, 'play/')) {
+        if (empty($iid)) {
             $icode = $this->getIcode($html, $url);
             if (empty($icode)) {
+                Common::debug("Failed to get icode from url: $url");
                 return FALSE;
             }
 
             $iid = $this->getIidByIcode($html, $icode);
+            Common::debug("iid from icode is $iid");
         }
 
         return $iid;
@@ -76,7 +117,9 @@ class Tudou
         $icode = Common::getFirstMatch($url, $pattern);
 
         if (empty($icode)) {
-            $icode = Common::getSubString($html, "location.href) || '", "'");
+            $pattern = '/location.href\) \|\| \'([^\']+)\'/';
+            $icode = Common::getFirstMatch($html, $pattern);
+            Common::debug("icode from location.href is $icode");
         }
 
         return $icode;
@@ -211,12 +254,12 @@ if (!empty($argv) && basename($argv[0]) === basename(__FILE__)) {
 //     $url = 'http://www.tudou.com/programs/view/z5VaKOkifzQ/';
 
 //     // ip forbidden
-//     $url = 'http://www.tudou.com/programs/view/rJpTeDQJvEs/';
+    $url = 'http://www.tudou.com/programs/view/rJpTeDQJvEs/';
 //     $url = 'http://www.tudou.com/albumplay/n9e8zZsySQc/bmT51zM7_3o.html';
 
 //     $url = 'http://www.tudou.com/listplay/avYiZY4TUxA/H6yyw65w7Io.html';
 //     $url = 'http://www.tudou.com/programs/view/9oi-HEJGKxI';
-    $url = 'http://www.tudou.com/listplay/iufZIeLCFFo/s4ava8gU7k0.html';
+//     $url = 'http://www.tudou.com/listplay/iufZIeLCFFo/s4ava8gU7k0.html';
 
     $tudou = new Tudou($url);
 
