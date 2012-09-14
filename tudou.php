@@ -79,9 +79,11 @@ class Tudou
             Common::debug("sogou proxy host is [$proxy]");
 
             $timestamp = $this->getTimestamp();
+// $timestamp = '5051b765';
             $hostname = 'v2.tudou.com';
             $tag = $this->calculateTag($timestamp, $hostname);
             Common::debug("sogou tag is [$tag], timestamp [$timestamp]");
+// $tag = '39eb3b68';
 
             $headers['X-Sogou-Timestamp'] = $timestamp;
             $headers['X-Sogou-Tag'] = $tag;
@@ -257,14 +259,19 @@ class Tudou
         $hash = $totalLen;
 
         function urshift($n, $s) {
-            return ($n >= 0) ? ($n >> $s) :
-                (($n & 0x7fffffff) >> $s) | 
-                    (0x40000000 >> ($s - 1));
+            if (PHP_INT_MAX > 2147483647) {
+                return $n >> $s;
+            } else {
+                return ($n >= 0) ? ($n >> $s) :
+                    (($n & 0x7fffffff) >> $s) | 
+                        (0x40000000 >> ($s - 1));
+            }
         } 
 
         function to32bitInteger($value) {
-            if (PHP_INT_MAX > 2147483647) {
-                return $value % 2147483648;
+            if ($value > 2147483647) {
+                $tmp = $value % 0x100000000;
+                return $tmp;
             }
             return $value;
         }
@@ -277,6 +284,7 @@ class Tudou
             $hash += $low;
             $hash = to32bitInteger($hash);
             $hash ^= $hash << 16;
+            $hash = to32bitInteger($hash);
 
             $hash ^= $high << 11;
 //             $hash += $hash >> 11;
@@ -289,6 +297,7 @@ class Tudou
                 $hash += (ord($src[$totalLen - 2]) << 8) + ord($src[$totalLen - 3]);
                 $hash = to32bitInteger($hash);
                 $hash ^= $hash << 16;
+                $hash = to32bitInteger($hash);
 
                 $hash ^= (ord($src[$totalLen - 1])) << 18;
 //                 $hash += $hash >> 11;
@@ -299,6 +308,7 @@ class Tudou
                 $hash += (ord($src[$totalLen - 1]) << 8) + ord($src[$totalLen - 2]);
                 $hash = to32bitInteger($hash);
                 $hash ^= $hash << 11;
+                $hash = to32bitInteger($hash);
 
 //                 $hash += $hash >> 17;
                 $hash += urshift($hash, 17);
@@ -308,6 +318,7 @@ class Tudou
                 $hash += ord($src[$totalLen - 1]);
                 $hash = to32bitInteger($hash);
                 $hash ^= $hash << 10;
+                $hash = to32bitInteger($hash);
 
 //                 $hash += $hash >> 1;
                 $hash += urshift($hash , 1);
@@ -318,16 +329,19 @@ class Tudou
         }
 
         $hash ^= $hash << 3;
+        $hash = to32bitInteger($hash);
 //         $hash += $hash >> 5;
         $hash += urshift($hash, 5);
         $hash = to32bitInteger($hash);
 
         $hash ^= $hash << 4;
+        $hash = to32bitInteger($hash);
 //         $hash += $hash >> 17;
         $hash += urshift($hash, 17);
         $hash = to32bitInteger($hash);
 
         $hash ^= $hash << 25;
+        $hash = to32bitInteger($hash);
 //         $hash += $hash >> 6;
         $hash += urshift($hash, 6);
         $hash = to32bitInteger($hash);
