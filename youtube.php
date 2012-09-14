@@ -83,7 +83,7 @@ class YouTube
 
 	private function parse_map_string($mapString)
 	{
-		$urlList = explode('url=', $mapString);
+		$urlList = explode(',itag=', $mapString);
 
 		$videoMap = array();
 
@@ -93,19 +93,21 @@ class YouTube
 			}
 			$itemList = explode('\\u0026', $url);
 
-			if (count($itemList) !== 5) {
+			if (count($itemList) !== 6) {
 				continue;
 			}
 
+			// 0. itag
 			// 1. url
-			// 2. quality
+			// 2. type
 			// 3. fallback_host
-			// 4. type
-			// 5. itag
+			// 4. sig
+			// 5. quality
 
-			$url = $itemList[0];
-			$itag = Common::getFirstMatch($itemList[4], '/itag=([0-9]+)/');
-			$videoMap[$itag] = $url;
+			$url = str_replace('url=', '', $itemList[1]);
+			$itag = str_replace('itag=', '', $itemList[0]);
+			$sig = str_replace('sig=', '', $itemList[4]);
+			$videoMap[$itag] = $url . "&signature=" . $sig;
 		}
 
 		return $videoMap;
@@ -143,7 +145,11 @@ class YouTube
 
 if (!empty($argv) && basename($argv[0]) === basename(__FILE__)) {
 // 	$url = 'http://www.youtube.com/watch?v=5kWFGTH8K5g';
-	$url = 'http://www.youtube.com/watch?v=KZyxFbx00TI';
+// 	$url = 'http://www.youtube.com/watch?v=KZyxFbx00TI';
+
+	// 2012 Sep 14
+// 	$url = 'http://www.youtube.com/watch?v=JtpvfeKHsTk';
+	$url = 'http://www.youtube.com/watch?v=tNC9V2ewsb4';
 
 	$host = new YouTube($url);
 
