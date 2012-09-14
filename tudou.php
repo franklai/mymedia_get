@@ -52,7 +52,7 @@ class Tudou
         if (empty($html)) {
             // check if Location in header
             $headers = $response->get_info();
-            if (array_key_exists('Location', $headers)) {
+            if (is_array($headers) && array_key_exists('Location', $headers)) {
                 $url = $headers['Location'];
                 $html = $this->getHtml($url);
             }
@@ -63,7 +63,7 @@ class Tudou
     }
 
     private function getXml($iid, $useProxy) {
-        $proxy = 'h3.dxt.bj.ie.sogou.com:80';
+        $proxy = NULL;
 
         $videoListUrl = sprintf("http://v2.tudou.com/v.action?st=2,3,4,5,99&it=%s", $iid);
         Common::debug("url is $videoListUrl");
@@ -73,11 +73,18 @@ class Tudou
             $headers['User-Agent'] = $_SERVER['HTTP_USER_AGENT'];
         }
 
-        // curl -v --cookie-jar kk.txt --proxy  h3.dxt.bj.ie.sogou.com:80  --header "X-Sogou-Auth: D3D6D30BED1674FAC48EE9A9D01C6799/30/853edc6d49ba4e27" --header "X-Sogou-Timestamp: 5051b765" --header "X-Sogou-Tag: 39eb3b68"   "http://v2.tudou.com/v.action?st=2,3,4,5,99&it=148748772"
+        // curl -v --cookie-jar cookie.txt --proxy  h3.dxt.bj.ie.sogou.com:80  --header "X-Sogou-Timestamp: 5051b765" --header "X-Sogou-Tag: 39eb3b68"   "http://v2.tudou.com/v.action?st=2,3,4,5,99&it=148748772"
         if ($useProxy) {
-            $headers['X-Sogou-Auth'] = 'D3D6D30BED1674FAC48EE9A9D01C6799/30/853edc6d49ba4e27';
-            $headers['X-Sogou-Timestamp'] = '5051b765';
-            $headers['X-Sogou-Tag'] = '39eb3b68';
+            $proxy = $this->getProxy();
+            Common::debug("sogou proxy host is [$proxy]");
+
+            $timestamp = $this->getTimestamp();
+            $hostname = 'v2.tudou.com';
+            $tag = $this->calculateTag($timestamp, $hostname);
+            Common::debug("sogou tag is [$tag], timestamp [$timestamp]");
+
+            $headers['X-Sogou-Timestamp'] = $timestamp;
+            $headers['X-Sogou-Tag'] = $tag;
         }
 
         $response = new Curl(
@@ -230,6 +237,99 @@ class Tudou
         }
     }
 
+    private function getProxy() {
+        $dxtSuffix = '.dxt.bj.ie.sogou.com:80';
+        $eduSuffix = '.edu.bj.ie.sogou.com:80';
+        $num = rand(0, 15);
+
+        $proxy = sprintf("h%d%s", $num, (rand(0, 1)) ? $dxtSuffix : $eduSuffix);
+        return $proxy;
+    }
+
+    private function getTimestamp() {
+        return sprintf("%x", time());
+    }
+
+    private function calculateTag($timestamp, $hostname) {
+        $src = sprintf("%s%s%s", $timestamp, $hostname, 'SogouExplorerProxy');
+        $totalLen = strlen($src);
+
+        $hash = $totalLen;
+
+        function urshift($n, $s) {
+            return ($n >= 0) ? ($n >> $s) :
+                (($n & 0x7fffffff) >> $s) | 
+                    (0x40000000 >> ($s - 1));
+        } 
+
+        // skip last block in iteration
+        for ($i = 0; $i < ($totalLen - 4); $i += 4) {
+            $low  = ord($src[$i + 1]) * 256 + ord($src[$i]);
+            $high = ord($src[$i + 3]) * 256 + ord($src[$i + 2]);
+
+            $hash += $low;
+//             $hash %= 0x10000000; // keep it in 32-bit integer
+            $hash ^= $hash << 16;
+
+            $hash ^= $high << 11;
+//             $hash += $hash >> 11;
+            $hash += urshift($hash, 11);
+//             $hash %= 0x100000000;
+        }
+
+        switch (($totalLen) % 4) {
+            case 3:
+                $hash += (ord($src[$totalLen - 2]) << 8) + ord($src[$totalLen - 3]);
+//                 $hash %= 0x100000000;
+                $hash ^= $hash << 16;
+
+                $hash ^= (ord($src[$totalLen - 1])) << 18;
+//                 $hash += $hash >> 11;
+                $hash += urshift($hash, 11);
+
+//                 $hash %= 0x100000000;
+                break;
+            case 2:
+                $hash += (ord($src[$totalLen - 1]) << 8) + ord($src[$totalLen - 2]);
+//                 $hash %= 0x100000000;
+                $hash ^= $hash << 11;
+
+//                 $hash += $hash >> 17;
+                $hash += urshift($hash, 17);
+//                 $hash %= 0x100000000;
+                break;
+            case 1:
+                $hash += ord($src[$totalLen - 1]);
+//                 $hash %= 0x100000000;
+                $hash ^= $hash << 10;
+
+//                 $hash += $hash >> 1;
+                $hash += urshift($hash , 1);
+//                 $hash %= 0x100000000;
+                break;
+            default:
+                break;
+        }
+
+        $hash ^= $hash << 3;
+//         $hash += $hash >> 5;
+        $hash += urshift($hash, 5);
+//         $hash %= 0x100000000;
+
+        $hash ^= $hash << 4;
+//         $hash += $hash >> 17;
+        $hash += urshift($hash, 17);
+//         $hash %= 0x100000000;
+
+        $hash ^= $hash << 25;
+//         $hash += $hash >> 6;
+        $hash += urshift($hash, 6);
+//         $hash %= 0x100000000;
+
+        $tag = sprintf("%08x", $hash);
+        return $tag;
+    }
+
     public function get_title() {
         return $this->title;
     }
@@ -254,14 +354,14 @@ if (!empty($argv) && basename($argv[0]) === basename(__FILE__)) {
 //     $url = 'http://www.tudou.com/programs/view/z5VaKOkifzQ/';
 
 //     // ip forbidden
-    $url = 'http://www.tudou.com/programs/view/rJpTeDQJvEs/';
+//     $url = 'http://www.tudou.com/programs/view/rJpTeDQJvEs/';
 //     $url = 'http://www.tudou.com/albumplay/n9e8zZsySQc/bmT51zM7_3o.html';
 
 //     $url = 'http://www.tudou.com/listplay/avYiZY4TUxA/H6yyw65w7Io.html';
 //     $url = 'http://www.tudou.com/programs/view/9oi-HEJGKxI';
-//     $url = 'http://www.tudou.com/listplay/iufZIeLCFFo/s4ava8gU7k0.html';
+    $url = 'http://www.tudou.com/listplay/iufZIeLCFFo/s4ava8gU7k0.html';
 
-    $tudou = new Tudou($url);
+    $tudou = new Tudou($url, array("proxy" => FALSE));
 
     $result = $tudou->get_result();
 
@@ -269,13 +369,16 @@ if (!empty($argv) && basename($argv[0]) === basename(__FILE__)) {
 
     echo "count is $count\n";
 
+    echo "user agent must be the same to get the f4v file.\n";
     for ($idx = 0; $idx < $count; $idx++) {
         $title = $result[$idx]['title'];
         $link = $result[$idx]['link'];
 
         printf("\n%s:\n", $title);
-        printf("\t%s\n", substr($link, 0, strpos($link, "?")));
+//         printf("\t%s\n", substr($link, 0, strpos($link, "?")));
+        printf("\t%s\n", substr($link, 0));
     }
+
 }
 
 // vim: expandtab
