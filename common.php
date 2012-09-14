@@ -12,7 +12,7 @@ class Common {
 
         $end = strpos($string, $suffix, $start);
         if ($end === FALSE) {
-            echo "cannot find suffix\n";
+            echo "cannot find suffix [$suffix]\n";
             return $string;
         }
 
@@ -30,9 +30,23 @@ class Common {
         return FALSE;
     }
 
-    static function hasString($string, $pattern)
-    {
+    static function getAllFirstMatch($string, $pattern) {
+        $ret = preg_match_all($pattern, $string, $matches);
+        if ($ret > 0) {
+            return $matches[1];
+        } else {
+            return $ret;
+        }
+    }
+
+    static function hasString($string, $pattern) {
         return (FALSE === strpos($string, $pattern))? FALSE : TRUE;
+    }
+
+    static function decodeHtml($html) {
+        $html = html_entity_decode($html, ENT_QUOTES, 'UTF-8');
+        $html = str_replace('&apos;', "'", $html);
+        return $html;
     }
 
     static function debug($string)
@@ -43,5 +57,5 @@ class Common {
     }
 }
 
+// vim: expandtab
 ?>
-
