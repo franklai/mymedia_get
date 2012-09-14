@@ -262,50 +262,56 @@ class Tudou
                     (0x40000000 >> ($s - 1));
         } 
 
+        function to32bitInteger($value) {
+            if (PHP_INT_MAX > 2147483647) {
+                return $value % 2147483648;
+            }
+            return $value;
+        }
+
         // skip last block in iteration
         for ($i = 0; $i < ($totalLen - 4); $i += 4) {
             $low  = ord($src[$i + 1]) * 256 + ord($src[$i]);
             $high = ord($src[$i + 3]) * 256 + ord($src[$i + 2]);
 
             $hash += $low;
-//             $hash %= 0x10000000; // keep it in 32-bit integer
+            $hash = to32bitInteger($hash);
             $hash ^= $hash << 16;
 
             $hash ^= $high << 11;
 //             $hash += $hash >> 11;
             $hash += urshift($hash, 11);
-//             $hash %= 0x100000000;
+            $hash = to32bitInteger($hash);
         }
 
         switch (($totalLen) % 4) {
             case 3:
                 $hash += (ord($src[$totalLen - 2]) << 8) + ord($src[$totalLen - 3]);
-//                 $hash %= 0x100000000;
+                $hash = to32bitInteger($hash);
                 $hash ^= $hash << 16;
 
                 $hash ^= (ord($src[$totalLen - 1])) << 18;
 //                 $hash += $hash >> 11;
                 $hash += urshift($hash, 11);
-
-//                 $hash %= 0x100000000;
+                $hash = to32bitInteger($hash);
                 break;
             case 2:
                 $hash += (ord($src[$totalLen - 1]) << 8) + ord($src[$totalLen - 2]);
-//                 $hash %= 0x100000000;
+                $hash = to32bitInteger($hash);
                 $hash ^= $hash << 11;
 
 //                 $hash += $hash >> 17;
                 $hash += urshift($hash, 17);
-//                 $hash %= 0x100000000;
+                $hash = to32bitInteger($hash);
                 break;
             case 1:
                 $hash += ord($src[$totalLen - 1]);
-//                 $hash %= 0x100000000;
+                $hash = to32bitInteger($hash);
                 $hash ^= $hash << 10;
 
 //                 $hash += $hash >> 1;
                 $hash += urshift($hash , 1);
-//                 $hash %= 0x100000000;
+                $hash = to32bitInteger($hash);
                 break;
             default:
                 break;
@@ -314,17 +320,17 @@ class Tudou
         $hash ^= $hash << 3;
 //         $hash += $hash >> 5;
         $hash += urshift($hash, 5);
-//         $hash %= 0x100000000;
+        $hash = to32bitInteger($hash);
 
         $hash ^= $hash << 4;
 //         $hash += $hash >> 17;
         $hash += urshift($hash, 17);
-//         $hash %= 0x100000000;
+        $hash = to32bitInteger($hash);
 
         $hash ^= $hash << 25;
 //         $hash += $hash >> 6;
         $hash += urshift($hash, 6);
-//         $hash %= 0x100000000;
+        $hash = to32bitInteger($hash);
 
         $tag = sprintf("%08x", $hash);
         return $tag;
@@ -359,9 +365,10 @@ if (!empty($argv) && basename($argv[0]) === basename(__FILE__)) {
 
 //     $url = 'http://www.tudou.com/listplay/avYiZY4TUxA/H6yyw65w7Io.html';
 //     $url = 'http://www.tudou.com/programs/view/9oi-HEJGKxI';
-    $url = 'http://www.tudou.com/listplay/iufZIeLCFFo/s4ava8gU7k0.html';
+//     $url = 'http://www.tudou.com/listplay/iufZIeLCFFo/s4ava8gU7k0.html';
+    $url = 'http://www.tudou.com/albumplay/aEYEkJj6o5c/F_xvvZS2FZg.html';
 
-    $tudou = new Tudou($url, array("proxy" => FALSE));
+    $tudou = new Tudou($url);
 
     $result = $tudou->get_result();
 
@@ -375,8 +382,8 @@ if (!empty($argv) && basename($argv[0]) === basename(__FILE__)) {
         $link = $result[$idx]['link'];
 
         printf("\n%s:\n", $title);
-//         printf("\t%s\n", substr($link, 0, strpos($link, "?")));
-        printf("\t%s\n", substr($link, 0));
+        printf("\t%s\n", substr($link, 0, strpos($link, "?")));
+//         printf("\t%s\n", substr($link, 0));
     }
 
 }
