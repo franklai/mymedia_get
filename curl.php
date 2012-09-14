@@ -32,6 +32,7 @@ class Curl
 		}
 
 		$ch = curl_init();
+// curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
 		curl_setopt($ch, CURLOPT_ENCODING, ''); // Accept-Encoding. Empty sent all supported encoding types
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, FALSE); // Do not follow any "Location: " header
 		curl_setopt($ch, CURLOPT_HEADER, TRUE); // output header
