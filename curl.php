@@ -7,7 +7,7 @@ class Curl
 {
 	private $response = NULL;
 
-	public function __construct($url, $data=NULL, $headers=NULL)
+	public function __construct($url, $data=NULL, $headers=NULL, $proxy=NULL)
 	{
 		$method = 'get';
 
@@ -45,6 +45,9 @@ class Curl
 		} else if ('post' == $method) {
 			curl_setopt($ch, CURLOPT_POST, TRUE);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+		}
+		if (!empty($proxy)) {
+			curl_setopt($ch, CURLOPT_PROXY, $proxy);
 		}
 
 		$response = curl_exec($ch);
