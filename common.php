@@ -49,6 +49,11 @@ class Common {
         return $html;
     }
 
+    static function sanitizePath($path) {
+        $specialChars = array('\\', '/', ':', '*', '?', '"', '<', '>', '|');
+        return str_replace($specialChars, '_', $path);
+    }
+
     static function debug($string)
     {
         if (!array_key_exists('HTTP_USER_AGENT', $_SERVER)) {
@@ -57,5 +62,5 @@ class Common {
     }
 }
 
-// vim: expandtab
+// vim: expandtab ts=4
 ?>
