@@ -83,11 +83,15 @@ class YouTube
 
 	private function parse_map_string($mapString)
 	{
+		$requiredKeys = array('itag', 'url', 'sig');
+
 		$urlList = explode(',', $mapString);
 
 		$videoMap = array();
 
 		foreach ($urlList as $url) {
+			$blValid = TRUE;
+
 			if (empty($url)) {
 				continue;
 			}
@@ -95,6 +99,17 @@ class YouTube
 			$queries = str_replace('\\u0026', '&', $url);
 
 			parse_str($queries, $items);
+
+			foreach ($requiredKeys as $key) {
+				if (FALSE === array_key_exists($key, $items)) {
+					$blValid = FALSE;
+					break;
+				}
+			}
+
+			if ($blValid === FALSE) {
+				continue;
+			}
 
 			$videoMap[$items['itag']] = $items['url'] . "&signature=" . $items['sig'];
 		}
